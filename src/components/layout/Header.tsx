@@ -6,6 +6,7 @@ import { cn } from '../../utils/cn'
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const { useTextLogo, logo, name } = cafeConfig
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,19 +39,28 @@ export function Header() {
       >
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 md:px-6">
           <a href="#" className="flex items-center gap-3">
-            <img
-              src={cafeConfig.logo}
-              alt={`${cafeConfig.name} logo`}
-              className="h-8 w-auto"
-            />
-            <span
-              className={cn(
-                'hidden font-main text-lg font-semibold sm:inline',
-                isScrolled ? 'text-primary' : 'text-white',
-              )}
-            >
-              {cafeConfig.name}
-            </span>
+            {useTextLogo || !logo ? (
+              <span
+                className={cn(
+                  'font-main text-lg font-semibold tracking-tight md:text-xl',
+                  isScrolled ? 'text-primary' : 'text-white',
+                )}
+              >
+                {name}
+              </span>
+            ) : (
+              <>
+                <img src={logo} alt={`${name} logo`} className="h-8 w-auto" />
+                <span
+                  className={cn(
+                    'hidden font-main text-lg font-semibold sm:inline',
+                    isScrolled ? 'text-primary' : 'text-white',
+                  )}
+                >
+                  {name}
+                </span>
+              </>
+            )}
           </a>
 
           <nav className="hidden items-center gap-8 md:flex">
@@ -101,7 +111,7 @@ export function Header() {
       >
         <div className="flex items-center justify-between border-b border-secondary/20 p-4">
           <span className="font-main text-lg font-semibold text-primary">
-            {cafeConfig.name}
+            {name}
           </span>
           <button
             type="button"

@@ -14,7 +14,10 @@ export interface AboutConfig {
   title: string
   content: string
   image: string
+  highlights?: string[]
 }
+
+export type MenuItemTag = 'signature' | 'bestseller' | 'season'
 
 export interface MenuItem {
   id: string
@@ -22,6 +25,8 @@ export interface MenuItem {
   description: string
   price: number
   image: string
+  tags?: MenuItemTag[]
+  featured?: boolean
 }
 
 export interface MenuCategory {
@@ -57,9 +62,10 @@ export interface Coordinates {
 export interface LocationConfig {
   address: string
   phone: string
-  email: string
+  email?: string
   businessHours: BusinessHours[]
   closedDays?: string[]
+  parking?: string
   mapProvider: 'naver' | 'kakao'
   coordinates?: Coordinates
 }
@@ -75,11 +81,15 @@ export interface CafeConfig {
   name: string
   tagline: string
   description: string
-  logo: string
+  logo: string | null
+  useTextLogo?: boolean
   hero: HeroConfig
   about: AboutConfig
   menu: MenuCategory[]
+  menuHighlights: string[]
+  menuSubtitle?: string
   gallery: GalleryImage[]
+  gallerySubtitle?: string
   reviews: Review[]
   location: LocationConfig
   social: SocialLinks

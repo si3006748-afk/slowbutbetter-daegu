@@ -2,7 +2,7 @@ import { cafeConfig } from '../../config/cafeConfig'
 import { FadeInSection } from '../common/FadeInSection'
 
 export function Gallery() {
-  const { gallery } = cafeConfig
+  const { gallery, gallerySubtitle } = cafeConfig
 
   return (
     <section id="gallery" className="bg-background py-20 md:py-28">
@@ -12,9 +12,9 @@ export function Gallery() {
             <h2 className="font-main text-3xl font-bold text-primary md:text-4xl">
               갤러리
             </h2>
-            <p className="mt-3 text-surface-text/70">
-              Moonlight Café의 따뜻한 순간들
-            </p>
+            {gallerySubtitle && (
+              <p className="mt-3 text-surface-text/70">{gallerySubtitle}</p>
+            )}
           </div>
 
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

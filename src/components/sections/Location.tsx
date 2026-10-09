@@ -1,4 +1,4 @@
-import { Clock, Mail, MapPin, Phone } from 'lucide-react'
+import { Clock, MapPin, ParkingCircle, Phone } from 'lucide-react'
 import { cafeConfig } from '../../config/cafeConfig'
 import { FadeInSection } from '../common/FadeInSection'
 
@@ -14,7 +14,9 @@ export function Location() {
             <h2 className="font-main text-3xl font-bold text-primary md:text-4xl">
               오시는 길
             </h2>
-            <p className="mt-3 text-surface-text/70">언제든지 편하게 방문해 주세요</p>
+            <p className="mt-3 text-surface-text/70">
+              넓은 무료 주차장을 이용하실 수 있습니다
+            </p>
           </div>
 
           <div className="mt-12 grid gap-8 lg:grid-cols-2">
@@ -41,19 +43,6 @@ export function Location() {
               </div>
 
               <div className="flex items-start gap-4">
-                <Mail className="mt-1 h-5 w-5 shrink-0 text-primary" />
-                <div>
-                  <h3 className="font-medium text-primary">이메일</h3>
-                  <a
-                    href={`mailto:${location.email}`}
-                    className="mt-1 text-surface-text/80 hover:text-primary"
-                  >
-                    {location.email}
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
                 <Clock className="mt-1 h-5 w-5 shrink-0 text-primary" />
                 <div>
                   <h3 className="font-medium text-primary">영업시간</h3>
@@ -65,6 +54,7 @@ export function Location() {
                       </li>
                     ))}
                   </ul>
+                  <p className="mt-2 text-sm text-surface-text/60">연중무휴</p>
                   {location.closedDays && location.closedDays.length > 0 && (
                     <p className="mt-2 text-surface-text/80">
                       <span className="font-medium">휴무일</span>{' '}
@@ -73,24 +63,29 @@ export function Location() {
                   )}
                 </div>
               </div>
+
+              {location.parking && (
+                <div className="flex items-start gap-4">
+                  <ParkingCircle className="mt-1 h-5 w-5 shrink-0 text-primary" />
+                  <div>
+                    <h3 className="font-medium text-primary">주차</h3>
+                    <p className="mt-1 text-surface-text/80">
+                      {location.parking}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/*
               ============================================================
-              지도 API 연동 가이드
+              지도 API 연동 가이드 (네이버맵)
               ============================================================
 
-              1. cafeConfig.ts에서 mapProvider를 "naver" 또는 "kakao"로 설정
+              1. cafeConfig.ts에서 mapProvider: "naver" 설정 확인
 
-              2. index.html의 <head> 또는 </body> 직전에 SDK 스크립트 추가:
+              2. index.html의 </body> 직전에 SDK 스크립트 추가:
 
-              [카카오맵]
-              <script
-                type="text/javascript"
-                src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_KAKAO_APP_KEY&autoload=false"
-              ></script>
-
-              [네이버맵]
               <script
                 type="text/javascript"
                 src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_NAVER_CLIENT_ID"
@@ -99,19 +94,8 @@ export function Location() {
               3. 아래 Placeholder div(id="map-container")를 실제 지도 컴포넌트로 교체
                  - React useEffect 내에서 SDK 초기화
                  - coordinates.lat / coordinates.lng 값 사용
-                 - mapProvider 값에 따라 분기 처리
 
-              4. SDK 로드 후 예시 (카카오맵):
-                 kakao.maps.load(() => {
-                   const container = document.getElementById('map-container')
-                   const options = {
-                     center: new kakao.maps.LatLng(lat, lng),
-                     level: 3,
-                   }
-                   new kakao.maps.Map(container, options)
-                 })
-
-              5. SDK 로드 후 예시 (네이버맵):
+              4. SDK 로드 후 예시:
                  const map = new naver.maps.Map('map-container', {
                    center: new naver.maps.LatLng(lat, lng),
                    zoom: 15,
@@ -134,9 +118,6 @@ export function Location() {
                       {coordinates.lat}, {coordinates.lng}
                     </p>
                   )}
-                  <p className="mt-4 text-xs text-surface-text/40">
-                    index.html에 카카오맵 SDK를 추가한 뒤 이 영역을 지도로 교체하세요
-                  </p>
                 </div>
               )}
 
@@ -146,7 +127,7 @@ export function Location() {
                     네이버맵 Placeholder
                   </p>
                   <p className="mt-2 text-sm text-surface-text/60">
-                    mapProvider: naver
+                    {location.address}
                   </p>
                   {coordinates && (
                     <p className="mt-1 text-xs text-surface-text/50">
